@@ -55,13 +55,13 @@
          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" 
 
+     # - name: Remove old task
+     #   run:
+     #     aws ecs stop-task --cluster sample-cluster --task `aws ecs list-tasks --cluster sample-cluster --family first-flask | grep ".\"arn:" | sed -e 's/^[[:space:]]//' | sed -e 's/^\"//' | sed -e 's/\"$//'`
+
      - name: Sleep
        run:
          sleep 10
-
-     - name: Remove old task
-       run:
-         aws ecs stop-task --cluster sample-cluster --task `aws ecs list-tasks --cluster sample-cluster --family first-flask | grep ".\"arn:" | sed -e 's/^[[:space:]]//' | sed -e 's/^\"//' | sed -e 's/\"$//'`
 
      - name: Fill in the new image ID in the Amazon ECS task definition
        id: task-def
