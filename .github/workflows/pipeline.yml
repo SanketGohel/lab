@@ -59,6 +59,10 @@
        run:
          sleep 10
 
+     - name: Remove old task
+       run:
+         aws ecs stop-task --cluster sample-cluster --task `aws ecs list-tasks --cluster sample-cluster --family first-flask | grep ".\"arn:" | sed -e 's/^[[:space:]]//' | sed -e 's/^\"//' | sed -e 's/\"$//'`
+
      - name: Fill in the new image ID in the Amazon ECS task definition
        id: task-def
        uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -74,6 +78,4 @@
           service: EC2-Flask
           cluster: sample-cluster
           wait-for-service-stability: true
-
-
-
+    
