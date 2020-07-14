@@ -5,13 +5,21 @@
     {
       "dnsSearchDomains": null,
       "environmentFiles": null,
-      "logConfiguration": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/first-flask",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
       "entryPoint": null,
       "portMappings": [
         {
-          "hostPort": 5000,
+          "hostPort": 8000,
           "protocol": "tcp",
-          "containerPort": 5000
+          "containerPort": 8000
         }
       ],
       "command": [
@@ -26,14 +34,13 @@
       "dnsServers": null,
       "mountPoints": [],
       "workingDirectory": "/lab-cicd",
-      "secrets": [
-      ],
+      "secrets": null,
       "dockerSecurityOptions": null,
-      "memory": null,
-      "memoryReservation": 128,
+      "memory": 128,
+      "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "136125053167.dkr.ecr.us-east-1.amazonaws.com/dockerized-flask:latest",
+      "image": "136125053167.dkr.ecr.us-east-1.amazonaws.com/first-flask:latest",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -50,23 +57,41 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "sample-app-container"
+      "name": "first-flask"
     }
   ],
   "placementConstraints": [],
   "memory": null,
-  "taskRoleArn": null,
+  "taskRoleArn": "arn:aws:iam::136125053167:role/ecsTaskExecutionRole",
   "compatibilities": [
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:136125053167:task-definition/sample-task",
-  "family": "sample-task",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:136125053167:task-definition/first-flask:3",
+  "family": "first-flask",
   "requiresAttributes": [
     {
       "targetId": null,
       "targetType": null,
       "value": null,
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
       "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
     },
     {
       "targetId": null,
@@ -78,7 +103,13 @@
       "targetId": null,
       "targetType": null,
       "value": null,
-      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-ecr-pull"
     }
   ],
   "pidMode": null,
@@ -87,7 +118,7 @@
   ],
   "networkMode": null,
   "cpu": null,
-  "revision": 1,
+  "revision": 3,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
