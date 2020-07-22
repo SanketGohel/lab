@@ -66,22 +66,33 @@ def create_app(env_name):
 
 		return custom_response(res,200)
 
-	# @app.route('/',methods =['PUT'])
-	# def put():
-	# 	"""
-	# 	example endpoint
+	@app.route('/update/',methods =['PUT'])
+	def put():
+		"""
+		example endpoint
 
-	# 	"""
-	# 	return 'Conguratulation! Your second endpoint is working'
+		"""
+		user = dm.DemoModel()
+		cre_data = request.get_json()
+		
+		res = user.update_user(cre_data)
+		return custom_response(res,200)
 
-	@app.route('/me',methods =['DELTE'])
-	def delete():
+		
+
+	@app.route('/me/<int:id>',methods =['DELETE'])
+	def delete(id):
 		"""
 		Removing single user
 
 		"""
 		user = dm.DemoModel()
-		res = 
+		if id:
+			res = user.del_user(id)
+			return custom_response(res,200)
+		else:
+			return custom_response("Please provide the Id which need to remove ",201)
+
 
 
 	def custom_response(res, status_code):
