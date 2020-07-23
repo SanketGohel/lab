@@ -22,7 +22,7 @@ def create_app(env_name):
 
 	#Creating Endpoint for getting single User Methods = GET
 	@app.route('/user/<int:id>',methods =['GET'])
-	def index(id):
+	def get_user(id):
 		"""
 		Single User
 	
@@ -30,9 +30,11 @@ def create_app(env_name):
 		user = dm.DemoModel()
 		if id:
 			res = user.get_user(id) #checking for single user with id
+			if res == 'Key not Found':
+				return custom_response(res,400)
 			return custom_response(res,200)
 		else:
-			return custom_response("Please provide the ID",201)
+			return custom_response("Please provide the ID",400)
 
 
 
@@ -52,7 +54,7 @@ def create_app(env_name):
 		
     
 	#Creating Endpoint for inserting the user Methods = POST
-	@app.route('/add/',methods =['POST'])
+	@app.route('/users/',methods =['POST'])
 	def create():
 		"""
 		Inserting 4 Parameters 'id', 'first_name','last_name', 'phone'
@@ -61,12 +63,18 @@ def create_app(env_name):
 		values = dm.DemoModel()
 		cre_data = request.get_json()
 
-		print(cre_data)
 		res = values.add(cre_data)
+		return custom_response(res,status_code = 200)
 
-		return custom_response(res,200)
+		#res = self._create(request.get_json()) 
 
-	@app.route('/update/',methods =['PUT'])
+	# def _create(user):
+	# 	values = dm.DemoModel()
+
+	# 	res = values.add(cre_data)
+	# 	return res
+
+	@app.route('/user/',methods =['PUT'])
 	def put():
 		"""
 		example endpoint
@@ -74,13 +82,15 @@ def create_app(env_name):
 		"""
 		user = dm.DemoModel()
 		cre_data = request.get_json()
-		
+
 		res = user.update_user(cre_data)
+		if res =='Key not Found':
+			return custom_response(res,400)
 		return custom_response(res,200)
 
 		
 
-	@app.route('/me/<int:id>',methods =['DELETE'])
+	@app.route('/user/<int:id>',methods =['DELETE'])
 	def delete(id):
 		"""
 		Removing single user
@@ -89,9 +99,11 @@ def create_app(env_name):
 		user = dm.DemoModel()
 		if id:
 			res = user.del_user(id)
+			if res == 'Key not Found':
+				return custom_response(res,400)
 			return custom_response(res,200)
 		else:
-			return custom_response("Please provide the Id which need to remove ",201)
+			return custom_response("Please provide the Id which need to remove ",400)
 
 
 

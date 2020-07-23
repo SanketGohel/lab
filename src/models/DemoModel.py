@@ -14,8 +14,7 @@ class DemoModel():
 
 		d[record['id']] = record
 
-		return 'Record has been added Sucessfully'
-
+		return "Record has been added"  
 
 	# Searching for single User with ID Parameter
 	def get_user(self,id):
